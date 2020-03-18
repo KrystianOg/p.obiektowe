@@ -111,8 +111,8 @@ unsigned int Menu::przegladaj() {
 			std::cout << '\n';
 		}
 
-		if (getchKey() != Key::cl)
-			continue;
+		//if (getchKey() != Key::cl)
+		//	continue;
 
 		keycode = getchKey();
 
