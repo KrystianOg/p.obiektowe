@@ -24,8 +24,6 @@ private:
 
 		right = 77,
 		left = 75,
-
-		cl ='\n'
 	};
 
 	int pointer = 0;
