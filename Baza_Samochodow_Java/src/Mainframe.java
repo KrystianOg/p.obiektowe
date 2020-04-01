@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -10,9 +9,10 @@ public class Mainframe extends JFrame {
     private Options options;
     private Sort sortowanie;
     public Table center;
-    public ContainerOfCars cars;
+    static public ContainerOfCars ccars;
 
     public Mainframe (){
+
         //set window
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int sch = screenSize.height;
@@ -31,7 +31,7 @@ public class Mainframe extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
 
-                if((options.cars.getsaved()==true)||(options.samochody.size()==0))
+                if((ccars.getsaved()==true)||(ccars.v_cars.size()==0))
                     System.exit(0);
 
                 else {
@@ -51,15 +51,15 @@ public class Mainframe extends JFrame {
         setResizable(false);
         //
 
-        DefaultTableModel dtm=new DefaultTableModel(0,0);
 
 
-        cars=new ContainerOfCars();
 
-        options=new Options(dtm,cars);
-        wyszukiwanie=new Wyszukiwanie(cars,options.samochody,dtm);
-        sortowanie=new Sort(options.samochody,dtm,cars);
-        center=new Table(dtm,cars,options.samochody);
+        ccars=new ContainerOfCars();
+
+        options=new Options(ccars);
+        wyszukiwanie=new Wyszukiwanie(ccars);
+        sortowanie=new Sort(ccars);
+        center=new Table(ccars);
 
         //get
         getContentPane().add(sortowanie,BorderLayout.NORTH);

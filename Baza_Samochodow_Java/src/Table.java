@@ -1,28 +1,22 @@
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Vector;
 
 public class Table  extends JPanel {
 
     JTable t1;
 
-    ContainerOfCars cars;
-
-    Table(DefaultTableModel dtm, ContainerOfCars ccars, Vector<Samochod> ccar) {
-
-        cars=ccars;
+    Table(ContainerOfCars ccars) {
 
         t1 = new JTable();
 
         String[] cnames = {"numer", "marka", "model", "rok produkcji", "cena", "stan", "przebieg", "typ skrzyni"};
         int i = 0;
 
-        dtm.setColumnIdentifiers(cnames);
+        ccars.dtm.setColumnIdentifiers(cnames);
 
-        t1.setModel(dtm);
+        t1.setModel(ccars.dtm);
 
         JScrollPane scpane = new JScrollPane(t1);
         scpane.setPreferredSize(new Dimension(660, 456));
@@ -38,7 +32,7 @@ public class Table  extends JPanel {
 
                 int selected = t1.getSelectedRow();
                     if(selected>=0&&ccars.getdelete())
-                    ccars.usun(ccar, dtm, selected);
+                    ccars.usun(selected);
                     else if(selected==-1)
                         return;
             }

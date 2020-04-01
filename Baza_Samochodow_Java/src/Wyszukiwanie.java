@@ -1,11 +1,6 @@
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Vector;
-
 
 public class Wyszukiwanie extends JPanel implements ActionListener{
 
@@ -25,13 +20,7 @@ public class Wyszukiwanie extends JPanel implements ActionListener{
 
     private ContainerOfCars cars;
 
-    DefaultTableModel dtm;
-
-    Vector<Samochod> v_cars;
-
-    public Wyszukiwanie(ContainerOfCars ccars, Vector<Samochod> cv_cars, DefaultTableModel dtmc){
-
-        v_cars=cv_cars;
+    public Wyszukiwanie(ContainerOfCars ccars){
 
         cars=ccars;
 
@@ -98,7 +87,6 @@ public class Wyszukiwanie extends JPanel implements ActionListener{
             c.insets=new Insets(30,18,100,18); //set default spacing
             c.gridwidth=2;
 
-
             confirm=new JButton("Zatwierdź");
             confirm.addActionListener((ActionListener) this);
             //confirm.setPreferredSize(new Dimension(60, 18));
@@ -110,7 +98,6 @@ public class Wyszukiwanie extends JPanel implements ActionListener{
 
         //
     }
-
 
     /**
      * Invoked when an action occurs.
@@ -138,7 +125,7 @@ public class Wyszukiwanie extends JPanel implements ActionListener{
 
             cars.setsearch(marka,model,rokod,rokdo,cenaod,cenado,przebiegod,przebiegdo);
 
-            cars.showtable(dtm,v_cars);
+            cars.showtable();
 
         }
 

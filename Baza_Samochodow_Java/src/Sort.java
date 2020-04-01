@@ -1,10 +1,8 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Collections;
-import java.util.Vector;
 
 public class Sort  extends JPanel {
 
@@ -19,11 +17,12 @@ public class Sort  extends JPanel {
     };
 
    private JComboBox box;
-   private DefaultTableModel dtm;
 
-Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
+   static ContainerOfCars ccars;
 
-    dtm=dtmc;
+Sort(ContainerOfCars cars){
+
+    ccars=cars;
 
     setBackground(new Color(60,60,60));
 
@@ -32,27 +31,25 @@ Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
             @Override
             public void itemStateChanged(ItemEvent e) {
 
-                System.out.println(cpyof_cars.getdelete());
-
                 Object item=e.getItem();
 
-                if(ccars.size()==0)
+                if(ccars.v_cars.size()==0)
                     return;
 
                 boolean ascending=true;
 
                 if(e.getStateChange()==ItemEvent.SELECTED){
-                    int []arr=new int[ccars.size()];
+                    int []arr=new int[ccars.v_cars.size()];
 
-                if(item.toString()==sort[0]){
-                    for(int i=0;i<ccars.size();i++)
-                        arr[i]=ccars.get(i).nr;
+                if(item.toString().equals(sort[0])){
+                    for(int i=0;i<ccars.v_cars.size();i++)
+                        arr[i]=ccars.v_cars.get(i).nr;
                     ascending=true;
                 }
 
                 else if(item.toString()==sort[1]||item.toString()==sort[2]){
-                    for(int i=0;i<ccars.size();i++)
-                        arr[i]=ccars.get(i).cena;
+                    for(int i=0;i<ccars.v_cars.size();i++)
+                        arr[i]=ccars.v_cars.get(i).cena;
 
                     if(item.toString()==sort[1])
                         ascending=true;
@@ -62,8 +59,8 @@ Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
                 }
 
                 else if(item.toString()==sort[3]||item.toString()==sort[4]){
-                    for(int i=0;i<ccars.size();i++)
-                        arr[i]=ccars.get(i).przebieg;
+                    for(int i=0;i<ccars.v_cars.size();i++)
+                        arr[i]=ccars.v_cars.get(i).przebieg;
 
                     if(item.toString()==sort[3])
                         ascending=true;
@@ -73,8 +70,8 @@ Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
                 }
 
                 else if(item.toString()==sort[5]||item.toString()==sort[6]){
-                    for(int i=0;i<ccars.size();i++)
-                        arr[i]=ccars.get(i).rok;
+                    for(int i=0;i<ccars.v_cars.size();i++)
+                        arr[i]=ccars.v_cars.get(i).rok;
 
                     if(item.toString()==sort[5])
                         ascending=true;
@@ -84,22 +81,20 @@ Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
                 }
 
                 if(ascending==true)
-                    quicksort_ascending(arr,ccars,0,ccars.size()-1);
+                    quicksort_ascending(arr,0,ccars.v_cars.size()-1);
                 else
-                    quicksort_descending(arr,ccars,0,ccars.size()-1);
+                    quicksort_descending(arr,0,ccars.v_cars.size()-1);
 
-                    addtoshow(ccars);
+                    addtoshow();
             }
          }
         });
 
         box.setBackground(Color.white);
         add(box);
-
-
     }
 
-        public static void quicksort_ascending(int[] arr,Vector<Samochod> vec, int start, int end){
+        public static void quicksort_ascending(int[] arr, int start, int end){
 
             int i=start;
             int j=end;
@@ -112,7 +107,7 @@ Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
                     j--;
 
                 if (i <= j) {
-                    Collections.swap(vec, i, j);
+                    Collections.swap(ccars.v_cars, i, j);
 
                     int temp=arr[i];
                     arr[i]=arr[j];
@@ -124,12 +119,12 @@ Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
             }while(i<=j);
 
                 if (start < j)
-                    quicksort_ascending(arr, vec, start, j);
+                    quicksort_ascending(arr, start, j);
                 if (end > i)
-                    quicksort_ascending(arr, vec, i, end);
+                    quicksort_ascending(arr, i, end);
         }
 
-    public static void quicksort_descending(int[] arr,Vector<Samochod> vec, int start, int end){
+    public static void quicksort_descending(int[] arr, int start, int end){
 
         int i=start;
         int j=end;
@@ -142,7 +137,7 @@ Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
                 j--;
 
             if (i <= j) {
-                Collections.swap(vec, i, j);
+                Collections.swap(ccars.v_cars, i, j);
 
                 int temp=arr[i];
                 arr[i]=arr[j];
@@ -154,42 +149,42 @@ Sort(Vector<Samochod> ccars,DefaultTableModel dtmc,ContainerOfCars cpyof_cars){
         }while(i<=j);
 
         if (start < j)
-            quicksort_descending(arr, vec, start, j);
+            quicksort_descending(arr, start, j);
         if (end > i)
-            quicksort_descending(arr, vec, i, end);
+            quicksort_descending(arr, i, end);
     }
 
 
-        private void addtoshow(Vector<Samochod> ccars){
+        private void addtoshow(){
 
-            while(dtm.getRowCount()>0)
-                dtm.removeRow(0);
+            while(ccars.dtm.getRowCount()>0)
+                ccars.dtm.removeRow(0);
 
-            for(int i=0;i<ccars.size();i++){
+            for(int i=0;i<ccars.v_cars.size();i++){
 
                 String nstan=new String();
                 String ntyp_s=new String();
 
-                if(ccars.get(i).stan==0)
+                if(ccars.v_cars.get(i).stan==0)
                     nstan="Używany";
 
-                else if(ccars.get(i).stan==1)
+                else if(ccars.v_cars.get(i).stan==1)
                     nstan="Nowy";
 
-                if(ccars.get(i).typ_skrzyni==0)
+                if(ccars.v_cars.get(i).typ_skrzyni==0)
                     ntyp_s="Manualna";
 
-                else if(ccars.get(i).typ_skrzyni==1)
+                else if(ccars.v_cars.get(i).typ_skrzyni==1)
                     ntyp_s="Automatyczna";
 
-                dtm.addRow(new Object[]{
-                        ccars.get(i).nr,
-                        ccars.get(i).marka,
-                        ccars.get(i).model,
-                        ccars.get(i).rok,
-                        ccars.get(i).cena,
+                ccars.dtm.addRow(new Object[]{
+                        ccars.v_cars.get(i).nr,
+                        ccars.v_cars.get(i).marka,
+                        ccars.v_cars.get(i).model,
+                        ccars.v_cars.get(i).rok,
+                        ccars.v_cars.get(i).cena,
                         nstan,
-                        ccars.get(i).przebieg,
+                        ccars.v_cars.get(i).przebieg,
                         ntyp_s,
                 });
 

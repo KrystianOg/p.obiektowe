@@ -32,11 +32,8 @@ public class addNewCar extends JFrame implements ActionListener{
 
     Vector<Samochod> ccars;
 
-    addNewCar(Vector<Samochod> cars,DefaultTableModel dtmc){
+    addNewCar(){
 
-        ccars=cars;
-
-       dtm=dtmc;
         setLayout(new GridBagLayout());
         setTitle("Dodaj nowy samochód");
         setIconImage(Toolkit.getDefaultToolkit().getImage("images/samochody.png"));

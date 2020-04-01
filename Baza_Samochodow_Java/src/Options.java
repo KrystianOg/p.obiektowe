@@ -1,19 +1,11 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Vector;
 
 public class Options extends JPanel implements ActionListener{
 
-    public Vector<Samochod> samochody=new Vector<Samochod>();
-
     private JButton[]button;
-
-    private ReadFromFile read;
 
     private String []buttons={
             "Wczytaj",
@@ -22,17 +14,11 @@ public class Options extends JPanel implements ActionListener{
             "Usuń",
     };
 
-    DefaultTableModel dtm;
+    static ContainerOfCars ccars;
 
-    ContainerOfCars cars;
+    Options(ContainerOfCars cars){
 
-    Options(DefaultTableModel dtmc,ContainerOfCars ccars){
-
-       cars=ccars;
-
-             dtm=dtmc;
-
-
+       ccars=cars;
 
         //set options
             setBackground(new Color(77,77,77));
@@ -65,27 +51,24 @@ public class Options extends JPanel implements ActionListener{
 
         Object source =e.getSource();
         if(source==button[0]) {
-
-            new ReadFromFile(cars,samochody,dtm,true);
-
+            new ReadFromFile(ccars,true);
         }
 
         else if(source==button[1]) {
 
-            if(samochody.isEmpty()){
+            if(ccars.v_cars.isEmpty()){
                 System.out.println("Empty container.");
                 return;
             }
 
-            new ReadFromFile(cars,samochody,dtm,false);
-
+            new ReadFromFile(ccars,false);
 
         }
 
         else if(source==button[2]) {
 
-            new addNewCar(samochody,dtm);
-                cars.setread(false);
+            new addNewCar();
+                ccars.setread(false);
         }
 
         else if(source==button[3]) {

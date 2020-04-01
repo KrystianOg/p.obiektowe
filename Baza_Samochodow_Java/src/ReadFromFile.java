@@ -1,11 +1,9 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Vector;
 
 public class ReadFromFile extends JFrame implements ActionListener {
 
@@ -16,19 +14,15 @@ public class ReadFromFile extends JFrame implements ActionListener {
 
     private String path=" ";
 
-    ContainerOfCars cars;
-    Vector<Samochod> samochody;
-    DefaultTableModel dtm;
+    static ContainerOfCars cars;
 
     private boolean read;
 
-    ReadFromFile( ContainerOfCars ccars, Vector<Samochod> cv_cars ,DefaultTableModel dtmc,boolean cread){
+    ReadFromFile( ContainerOfCars ccars,boolean cread){
 
 
         read=cread;
         cars=ccars;
-        samochody=cv_cars;
-        dtm=dtmc;
 
         if(read==true)
             setTitle("Wczytaj z pliku");
@@ -109,14 +103,14 @@ public class ReadFromFile extends JFrame implements ActionListener {
         path=txtf.getText();
         if(read==true) {
             try {
-                cars.wczytaj(samochody, dtm, "bases/" + getpath()+".txt");
+                cars.wczytaj("bases/" + getpath()+".txt");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         }
         else {
             try {
-                cars.zapisz(samochody,"bases/"+getpath()+".txt");
+                cars.zapisz("bases/"+getpath()+".txt");
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             } catch (IOException ex) {

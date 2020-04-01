@@ -6,8 +6,12 @@ import java.util.Vector;
 
 public class ContainerOfCars {
 
-    private boolean read=false,saved=false;
-    private boolean delete=false;
+    private boolean read;
+    private boolean saved;
+    private boolean delete;
+
+    public Vector<Samochod> v_cars =new Vector<>();
+    DefaultTableModel dtm=new DefaultTableModel(0,0);
 
     //search
         String marka,model;
@@ -16,21 +20,18 @@ public class ContainerOfCars {
         private int przebiegod,przebiegdo;
     //
 
-
-
-
     ContainerOfCars(){
 
+        read=false;
+        saved=false;
+        delete=false;
     }
 
-    void wczytaj(Vector<Samochod> ccars, DefaultTableModel dtm,String path) throws IOException {
+    void wczytaj(String path) throws IOException {
 
-        ccars.clear();
+        v_cars.clear();
 
         File file=new File(path);
-
-
-        //there instead of *this thing* the user could select a file to read from
 
         BufferedReader inFile = new BufferedReader(new FileReader(path));
         Scanner in =new Scanner(inFile);
@@ -46,31 +47,29 @@ public class ContainerOfCars {
             copy.przebieg=in.nextInt();
             copy.typ_skrzyni=in.nextByte();
 
-            ccars.add(copy);
+            v_cars.add(copy);
         }
         inFile.close();
 
-        showtable(dtm,ccars);
+        showtable();
 
         read=true;
         System.out.println("Wczytano");
     }
 
-    public void zapisz(Vector<Samochod> ccars,String path) throws IOException {
+    public void zapisz(String path) throws IOException {
         FileWriter w=new FileWriter(path);
         int i=0;
 
-
-        while(i<ccars.size()){
-            w.write(ccars.get(i).nr +" ");
-            w.write(ccars.get(i).marka+" ");
-            w.write(ccars.get(i).model+" ");
-            w.write(ccars.get(i).rok +" ");
-            w.write(ccars.get(i).cena +" ");
-            w.write(ccars.get(i).stan +" ");
-            w.write(ccars.get(i).przebieg +" ");
-            w.write(ccars.get(i).typ_skrzyni +"\n");
-
+        while(i<v_cars.size()){
+            w.write(v_cars.get(i).nr +" ");
+            w.write(v_cars.get(i).marka+" ");
+            w.write(v_cars.get(i).model+" ");
+            w.write(v_cars.get(i).rok +" ");
+            w.write(v_cars.get(i).cena +" ");
+            w.write(v_cars.get(i).stan +" ");
+            w.write(v_cars.get(i).przebieg +" ");
+            w.write(v_cars.get(i).typ_skrzyni +"\n");
 
             i++;
         }
@@ -79,46 +78,44 @@ public class ContainerOfCars {
         System.out.println("Zapisano");
     }
 
-
-    public void usun(Vector<Samochod> cars,DefaultTableModel dtm,int row){
-        Collections.swap(cars,row,cars.size()-1);
-        cars.get(row).nr=row;
-        cars.remove(cars.size()-1);
-        showtable(dtm,cars);
+    public void usun(int row){
+        Collections.swap(v_cars,row,v_cars.size()-1);
+        v_cars.get(row).nr=row;
+        v_cars.remove(v_cars.size()-1);
+        showtable();
     }
 
-    public void showtable(DefaultTableModel dtm,Vector<Samochod> ccars){
-
+    public void showtable(){
 
         while(dtm.getRowCount()>0)
             dtm.removeRow(0);
 
-        for(int i=0;i<ccars.size();i++){
+        for(int i=0;i<v_cars.size();i++){
 
             String nstan=new String();
             String ntyp_s=new String();
 
-            if(ccars.get(i).stan==0)
+            if(v_cars.get(i).stan==0)
                 nstan="Używany";
 
-            else if(ccars.get(i).stan==1)
+            else if(v_cars.get(i).stan==1)
                 nstan="Nowy";
 
-            if(ccars.get(i).typ_skrzyni==0)
+            if(v_cars.get(i).typ_skrzyni==0)
                 ntyp_s="Manualna";
 
-            else if(ccars.get(i).typ_skrzyni==1)
+            else if(v_cars.get(i).typ_skrzyni==1)
                 ntyp_s="Automatyczna";
 
 
             dtm.addRow(new Object[]{
-                    ccars.get(i).nr,
-                    ccars.get(i).marka,
-                    ccars.get(i).model,
-                    ccars.get(i).rok,
-                    ccars.get(i).cena,
+                    v_cars.get(i).nr,
+                    v_cars.get(i).marka,
+                    v_cars.get(i).model,
+                    v_cars.get(i).rok,
+                    v_cars.get(i).cena,
                     nstan,
-                    ccars.get(i).przebieg,
+                    v_cars.get(i).przebieg,
                     ntyp_s,
             });
         }
