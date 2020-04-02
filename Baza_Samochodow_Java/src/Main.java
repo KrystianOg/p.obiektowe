@@ -3,10 +3,13 @@ import javax.swing.*;
 
 public class Main {
 
-    public static Mainframe frame;
+    private static Mainframe frame;
+
     public static void main(String[] args) {
-         frame = new Mainframe();
+        setframe();
+    }
 
-
+    private static void setframe() {
+        frame = new Mainframe();
     }
 }
